@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:music_app/widgets/home_grid.dart';
 
 class HomeSreen extends StatelessWidget {
   const HomeSreen({Key? key}) : super(key: key);
@@ -18,7 +19,7 @@ class HomeSreen extends StatelessWidget {
         child: Container(
           child: Column(
             children: [
-              Text('data'),
+              HomeGrid(),
             ],
           ),
         ),
