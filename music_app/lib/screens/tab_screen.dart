@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:music_app/screens/home_screen.dart';
+import 'package:music_app/screens/library_screen.dart';
+import 'package:music_app/screens/search_sreen.dart';
 import 'package:music_app/widgets/login_form.dart';
 
 class TabScreen extends StatefulWidget {
@@ -10,6 +12,7 @@ class TabScreen extends StatefulWidget {
 class _TabScreenState extends State<TabScreen> {
   late List<Map<String, Object>> _pages;
   int _selectedPageIndex = 0;
+  bool isPlaying = false;
 
   @override
   void initState() {
@@ -19,20 +22,18 @@ class _TabScreenState extends State<TabScreen> {
         'title': 'Home',
       },
       {
+        'page': SearchScreen(),
+        'title': 'Search',
+      },
+      {
+        'page': LibraryScreen(),
+        'title': 'Library',
+      },
+      {
         'page': Center(
           child: Text('abc'),
         ),
-        'title': 'Your Favorite',
-      },
-      {
-        'page': LoginForm(),
-        'title': 'Home',
-      },
-      {
-        'page': Center(
-          child: Text('abc'),
-        ),
-        'title': 'Your Favorite',
+        'title': 'Account',
       },
     ];
     super.initState();
@@ -54,7 +55,8 @@ class _TabScreenState extends State<TabScreen> {
               width: double.infinity,
               margin: EdgeInsets.only(right: 5, left: 5),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.0), color: Colors.pink),
+                  borderRadius: BorderRadius.circular(8.0),
+                  color: Theme.of(context).secondaryHeaderColor),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -71,7 +73,15 @@ class _TabScreenState extends State<TabScreen> {
                   Column(
                     children: [Text('Song name'), Text('Artist')],
                   ),
-                  IconButton(onPressed: () {}, icon: Icon(Icons.play_arrow))
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        isPlaying = !isPlaying;
+                      });
+                    },
+                    icon: Icon(isPlaying ? Icons.pause : Icons.play_arrow),
+                    iconSize: 40,
+                  )
                 ],
               ),
             )
