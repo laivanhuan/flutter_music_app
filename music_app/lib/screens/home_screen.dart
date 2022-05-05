@@ -8,13 +8,20 @@ class HomeSreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Welcome',
-          style: TextStyle(color: Colors.black),
+          'Wellcome',
+          style: TextStyle(color: Colors.black, fontSize: 20),
         ),
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        elevation: 0,
       ),
-      body: Container(
-        child: Text('Home'),
+      body: SingleChildScrollView(
+        child: Container(
+          child: Column(
+            children: [
+              Text('data'),
+            ],
+          ),
+        ),
       ),
     );
   }

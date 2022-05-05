@@ -25,6 +25,10 @@ class _LoginFormState extends State<LoginForm> {
           child: Form(
             child: Column(
               children: [
+                Image.network(
+                  'https://p.kindpng.com/picc/s/21-210072_man-wearing-headphones-silhouette-hd-png-download.png',
+                  height: 184,
+                ),
                 TextFormField(
                   decoration: InputDecoration(
                     hintText: 'Email',
@@ -61,13 +65,28 @@ class _LoginFormState extends State<LoginForm> {
                       ),
                     ),
                   ),
-                SizedBox(
-                  height: 35.47,
+                if (!isLogin)
+                  SizedBox(
+                    height: 35.47,
+                  ),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: Text(
+                    isLogin ? 'Login' : 'Create',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.black,
+                    minimumSize: Size(311.4, 44),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 130, vertical: 20),
+                    shape: new RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(50.0),
+                    ),
+                  ),
                 ),
-                FlatButton(
-                    onPressed: () {},
-                    child: Text(isLogin ? 'Login' : 'Create')),
-                if (isLogin) Text('or'),
+                if (isLogin)
+                  Padding(padding: EdgeInsets.only(top: 20), child: Text('or')),
                 FlatButton(
                     onPressed: changeState,
                     child: Text(isLogin ? 'Create a new account' : 'Login')),
