@@ -9,7 +9,7 @@ class HomeSreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           'Wellcome',
-          style: TextStyle(color: Colors.black, fontSize: 20),
+          style: TextStyle(color: Colors.black, fontSize: 30),
         ),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
