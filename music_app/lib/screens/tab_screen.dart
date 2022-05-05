@@ -67,7 +67,8 @@ class _TabScreenState extends State<TabScreen> {
                     child: Image.network(
                       'https://i.pinimg.com/736x/fe/71/10/fe711033077aa00d714c6475c18f0565.jpg',
                       width: 72,
-                      fit: BoxFit.fill,
+                      height: double.infinity,
+                      fit: BoxFit.cover,
                     ),
                   ),
                   Column(
