@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:music_app/screens/song_detail_screen.dart';
+import 'package:music_app/screens/songs_list.dart';
 
 class HomeGridItem extends StatelessWidget {
   String imageUrl;
@@ -10,7 +11,7 @@ class HomeGridItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, SongDetailScreen.routeName);
+        Navigator.pushNamed(context, SongLists.routeName, arguments: name);
       },
       child: Container(
         decoration: BoxDecoration(

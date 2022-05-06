@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:music_app/screens/home_screen.dart';
 import 'package:music_app/screens/login_screen.dart';
 import 'package:music_app/screens/song_detail_screen.dart';
+import 'package:music_app/screens/songs_list.dart';
 import 'package:music_app/screens/tab_screen.dart';
 
 void main() {
@@ -25,6 +26,12 @@ class MyApp extends StatelessWidget {
       home: TabScreen(),
       routes: {
         '/songdetail': (context) => SongDetailScreen(),
+      },
+      onGenerateRoute: (settings) {
+        if (settings.name == '/songlist') {
+          final value = settings.arguments as String;
+          return MaterialPageRoute(builder: (_) => SongLists(value));
+        }
       },
     );
   }

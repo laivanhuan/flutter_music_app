@@ -17,12 +17,12 @@ class HomeGrid extends StatelessWidget {
         mainAxisSpacing: 5,
         crossAxisSpacing: 5,
         children: [
-          HomeGridItem(link, 'name'),
-          HomeGridItem(link, 'name'),
-          HomeGridItem(link, 'name'),
-          HomeGridItem(link, 'name'),
-          HomeGridItem(link, 'name'),
-          HomeGridItem(link, 'name'),
+          HomeGridItem(link, 'Pop'),
+          HomeGridItem(link, 'Ballad'),
+          HomeGridItem(link, 'Country'),
+          HomeGridItem(link, 'Folks'),
+          HomeGridItem(link, 'Rock'),
+          HomeGridItem(link, 'Soul'),
         ],
       ),
     );

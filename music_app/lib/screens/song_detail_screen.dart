@@ -13,6 +13,14 @@ class SongDetailScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context, false);
+          },
+          icon: Icon(Icons.keyboard_arrow_down_sharp),
+          iconSize: 35,
+          color: Theme.of(context).secondaryHeaderColor,
+        ),
       ),
       body: Center(
         child: Text('Playing...'),
