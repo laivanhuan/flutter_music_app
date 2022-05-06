@@ -69,19 +69,21 @@ class _LoginFormState extends State<LoginForm> {
                   SizedBox(
                     height: 35.47,
                   ),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: Text(
-                    isLogin ? 'Login' : 'Create',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.black,
-                    minimumSize: Size(311.4, 44),
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 130, vertical: 20),
-                    shape: new RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(50.0),
+                SizedBox(
+                  height: 59,
+                  width: 311.4,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: Text(
+                      isLogin ? 'Login' : 'Create',
+                      style: TextStyle(fontSize: 16, letterSpacing: 6),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.black,
+                      elevation: 0,
+                      shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(50.0),
+                      ),
                     ),
                   ),
                 ),

@@ -38,7 +38,8 @@ class _SearchScreenState extends State<SearchScreen> {
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20))),
             ),
-          )
+          ),
+          IconButton(onPressed: () {}, icon: Icon(Icons.search_sharp))
         ],
       ),
     );
