@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:music_app/screens/profile_screen.dart';
 import 'package:music_app/screens/home_screen.dart';
 import 'package:music_app/screens/library_screen.dart';
 import 'package:music_app/screens/search_sreen.dart';
@@ -31,9 +32,7 @@ class _TabScreenState extends State<TabScreen> {
         'title': 'Library',
       },
       {
-        'page': Center(
-          child: Text('abc'),
-        ),
+        'page': Profile(),
         'title': 'Account',
       },
     ];
