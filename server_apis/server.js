@@ -3,9 +3,11 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const cors = require("cors");
-
 require("dotenv").config();
+
+const routers = require("./routes");
 const models = require("./models");
+const middleware = require("./middlewares");
 
 const app = express();
 
@@ -34,6 +36,10 @@ app.use(
 app.use(cors());
 
 const PORT = process.env.PORT || 3000;
+
+// Apis routers
+app.use("/auth", routers.authRoutes);
+app.use("/user", middleware.authMiddleware, routers.userRoutes);
 
 app.use(function (_, res) {
   res.status(404).json("404 Not Found!");
