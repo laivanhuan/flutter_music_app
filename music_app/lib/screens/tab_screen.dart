@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:music_app/providers/screen.dart';
 import 'package:music_app/screens/home_screen.dart';
 import 'package:music_app/screens/library_screen.dart';
 import 'package:music_app/screens/search_sreen.dart';
 import 'package:music_app/screens/song_detail_screen.dart';
+import 'package:music_app/screens/songs_list.dart';
 import 'package:music_app/widgets/login_form.dart';
+import 'package:music_app/widgets/song_list_item.dart';
+import 'package:provider/provider.dart';
 
 class TabScreen extends StatefulWidget {
   @override
@@ -14,9 +18,13 @@ class _TabScreenState extends State<TabScreen> {
   late List<Map<String, Object>> _pages;
   int _selectedPageIndex = 0;
   bool isPlaying = false;
+  String genre = "";
 
   @override
   void initState() {
+    setState(() {
+      genre = Provider.of<Screen>(context, listen: false).genreName;
+    });
     _pages = [
       {
         'page': HomeSreen(),
@@ -32,24 +40,35 @@ class _TabScreenState extends State<TabScreen> {
       },
       {
         'page': Center(
-          child: Text('abc'),
+          child: Text(genre),
         ),
         'title': 'Account',
       },
+      {
+        'page': SongLists("pop"),
+        'title': 'SongLists',
+      },
     ];
+
     super.initState();
   }
 
   void _selectPage(int index) {
     setState(() {
       _selectedPageIndex = index;
+      Provider.of<Screen>(context, listen: false).setCurrentScreen(index);
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    int i = context.watch<Screen>().currentScreen;
+    _pages[4] = {
+      'page': SongLists(Provider.of<Screen>(context, listen: false).genreName),
+      'title': 'SongLists',
+    };
     return Scaffold(
-      body: _pages[_selectedPageIndex]['page'] as Widget,
+      body: _pages[i]['page'] as Widget,
       bottomSheet: true
           ? InkWell(
               onTap: () {
