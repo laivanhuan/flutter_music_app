@@ -3,6 +3,9 @@ import 'package:flutter/src/widgets/framework.dart';
 
 import 'package:flutter/material.dart';
 import 'package:music_app/widgets/song_list_item.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/screen.dart';
 
 class SongLists extends StatelessWidget {
   static final String routeName = '/songlist';
@@ -15,7 +18,8 @@ class SongLists extends StatelessWidget {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
-            Navigator.pop(context, false);
+            // Navigator.pop(context, false);
+            Provider.of<Screen>(context, listen: false).setCurrentScreen(0);
           },
           icon: Icon(
             Icons.keyboard_arrow_down_sharp,
@@ -46,7 +50,7 @@ class SongLists extends StatelessWidget {
                 shrinkWrap: true,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 30,
-                children: List.generate(100, (index) {
+                children: List.generate(10, (index) {
                   return SongListItem();
                 }),
               ),
