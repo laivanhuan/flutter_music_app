@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
+const path = require("path");
 const cors = require("cors");
 require("dotenv").config();
 
@@ -20,7 +21,7 @@ models.sequelize
     console.log(err, "Something went wrong with the Database Update!");
   });
 
-app.use("/public", express.static("public"));
+app.use("/public", express.static(path.resolve(__dirname + "/public")));
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
@@ -39,6 +40,9 @@ const PORT = process.env.PORT || 3000;
 
 // Apis routers
 app.use("/auth", routers.authRoutes);
+app.use("/tag", routers.tagRoutes);
+app.use("/album", routers.albumRoutes);
+app.use("/artist", routers.artistRoutes);
 app.use("/user", middleware.authMiddleware, routers.userRoutes);
 
 app.use(function (_, res) {

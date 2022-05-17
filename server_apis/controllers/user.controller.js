@@ -7,7 +7,9 @@ const { Response, Contants } = require("../utils");
 const createUser = async (req, res) => {
   try {
     const { username, password, name, email } = req.body;
-    const file = req.file;
+    const avatarPath = req.file
+      ? `/public/images/${req.file.filename}`
+      : `/public/images/avatar_default.jpg`;
     const hash_password = bcrypt.hashSync(password, 10);
 
     const newUser = {
@@ -16,7 +18,7 @@ const createUser = async (req, res) => {
       name,
       email,
       role: Contants.USER.ROLE.NORMAL,
-      image: `/public/images/${file.filename}`,
+      image: avatarPath,
     };
     await users.create(newUser);
     const response = new Response(200, "OK! User created.");
