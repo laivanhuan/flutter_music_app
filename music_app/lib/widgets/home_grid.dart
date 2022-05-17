@@ -12,6 +12,7 @@ class HomeGrid extends StatelessWidget {
       height: 178,
       margin: EdgeInsets.symmetric(horizontal: 17),
       child: GridView.count(
+        physics: NeverScrollableScrollPhysics(),
         crossAxisCount: 2,
         childAspectRatio: 168 / 50,
         mainAxisSpacing: 5,
