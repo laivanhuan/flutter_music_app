@@ -16,7 +16,7 @@ module.exports = function (sequelize, Sequelize) {
         type: Sequelize.INTEGER,
       },
     },
-    { createdAt: false, updatedAt: false }
+    { createdAt: false, updatedAt: false, freezeTableName: true }
   );
 
   return Artist_Song;

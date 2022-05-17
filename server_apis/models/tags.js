@@ -12,7 +12,7 @@ module.exports = function (sequelize, Sequelize) {
         type: Sequelize.STRING,
       },
     },
-    { createdAt: false, updatedAt: false }
+    { createdAt: false, updatedAt: false, freezeTableName: true }
   );
 
   return Tag;
