@@ -28,7 +28,7 @@ class HomeList extends StatelessWidget {
             margin: EdgeInsets.symmetric(vertical: 10),
             child: ListView(
               scrollDirection: Axis.horizontal,
-              children: List.generate(3, (index) {
+              children: List.generate(10, (index) {
                 return ArtistListItem();
               }),
             ),
