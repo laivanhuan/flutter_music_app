@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:music_app/providers/screen.dart';
+import 'package:music_app/screens/artist_song_list_screen.dart';
 import 'package:music_app/screens/home_screen.dart';
 import 'package:music_app/screens/library_screen.dart';
+import 'package:music_app/screens/profile_screen.dart';
 import 'package:music_app/screens/search_sreen.dart';
 import 'package:music_app/screens/song_detail_screen.dart';
 import 'package:music_app/screens/songs_list.dart';
@@ -39,14 +41,16 @@ class _TabScreenState extends State<TabScreen> {
         'title': 'Library',
       },
       {
-        'page': Center(
-          child: Text(genre),
-        ),
+        'page': Profile(),
         'title': 'Account',
       },
       {
         'page': SongLists("pop"),
         'title': 'SongLists',
+      },
+      {
+        'page': ArtistSongListScreen("Justin Bieber"),
+        'title': 'artistSongLists',
       },
     ];
 

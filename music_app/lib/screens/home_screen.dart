@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:music_app/widgets/home_grid.dart';
+import 'package:music_app/widgets/home_list.dart';
+import 'package:music_app/widgets/home_song_grid.dart';
+import 'package:music_app/widgets/song_grid.dart';
 
 class HomeSreen extends StatelessWidget {
   const HomeSreen({Key? key}) : super(key: key);
@@ -15,13 +18,9 @@ class HomeSreen extends StatelessWidget {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          child: Column(
-            children: [
-              HomeGrid(),
-            ],
-          ),
+      body: Container(
+        child: ListView(
+          children: [HomeGrid(), HomeList(), HomeSongGrid()],
         ),
       ),
     );

@@ -8,10 +8,10 @@ import 'package:provider/provider.dart';
 
 import '../providers/screen.dart';
 
-class SongLists extends StatelessWidget {
-  static final String routeName = '/songlist';
-  final String genre;
-  SongLists(this.genre);
+class ArtistSongListScreen extends StatelessWidget {
+  static final String routeName = '/artistsonglist';
+  final String artist;
+  ArtistSongListScreen(this.artist);
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class SongLists extends StatelessWidget {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  genre,
+                  artist,
                   style: TextStyle(fontSize: 35, fontWeight: FontWeight.w600),
                 ),
               )),
