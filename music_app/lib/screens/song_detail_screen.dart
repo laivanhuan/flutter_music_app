@@ -11,19 +11,32 @@ class SongDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        centerTitle: true,
         elevation: 0,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         leading: IconButton(
+          icon: Icon(
+            Icons.keyboard_arrow_down_sharp,
+            color: Theme.of(context).primaryColor,
+          ),
           onPressed: () {
-            Navigator.pop(context, false);
+            Navigator.pop(context);
           },
-          icon: Icon(Icons.keyboard_arrow_down_sharp),
-          iconSize: 35,
-          color: Theme.of(context).secondaryHeaderColor,
         ),
-      ),
-      body: Center(
-        child: Text('Playing...'),
+        title: Column(children: [
+          Text(
+            "Song name",
+            style: TextStyle(color: Colors.black),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Text("Artist",
+              style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w300,
+                  fontSize: 19))
+        ]),
       ),
     );
   }

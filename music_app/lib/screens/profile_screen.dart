@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:music_app/providers/screen.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/auth.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -27,7 +31,7 @@ class _ProfileState extends State<Profile> {
           SizedBox(
             height: 10,
           ),
-          _profileName("Devid"),
+          _profileName(Provider.of<Auth>(context, listen: false).userName),
           SizedBox(
             height: 14,
           ),
@@ -49,12 +53,11 @@ class _ProfileState extends State<Profile> {
             height: 100,
             width: 100,
             decoration: BoxDecoration(
-                //borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                shape: BoxShape.circle,
+                borderRadius: BorderRadius.all(Radius.circular(100.0)),
                 image: DecorationImage(
-                    fit: BoxFit.fill,
+                    fit: BoxFit.contain,
                     image: NetworkImage(
-                        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80"))
+                        "https://p.kindpng.com/picc/s/21-210072_man-wearing-headphones-silhouette-hd-png-download.png"))
                 // color: Colors.orange[100],
                 ),
           ),
@@ -68,7 +71,7 @@ class _ProfileState extends State<Profile> {
       width: MediaQuery.of(context).size.width * 0.80, //80% of width,
       child: Center(
         child: Text(
-          name,
+          name == null ? "User" : name,
           style: TextStyle(
               color: Colors.black, fontSize: 24, fontWeight: FontWeight.w800),
         ),
@@ -96,7 +99,7 @@ class _ProfileState extends State<Profile> {
             //row for each deatails
             ListTile(
               leading: Icon(Icons.email),
-              title: Text("Something@gmail.com"),
+              title: Text(Provider.of<Auth>(context, listen: false).userEmail),
             ),
             Divider(
               height: 0.6,
@@ -122,7 +125,10 @@ class _ProfileState extends State<Profile> {
 
   Widget logoutButton() {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Provider.of<Screen>(context, listen: false).setCurrentScreen(0);
+        Provider.of<Auth>(context, listen: false).logout();
+      },
       child: Container(
           color: Colors.orange,
           child: Padding(

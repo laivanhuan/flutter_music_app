@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:music_app/providers/auth.dart';
 import 'package:music_app/providers/screen.dart';
 import 'package:music_app/screens/artist_song_list_screen.dart';
 import 'package:music_app/screens/home_screen.dart';
@@ -19,33 +20,43 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => Screen()),
-      ],
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primaryColor: Color.fromARGB(255, 196, 196, 196),
-          accentColor: Color.fromRGBO(75, 75, 75, 1),
-          secondaryHeaderColor: Color(0xffc4c4c4),
-          scaffoldBackgroundColor: Color.fromRGBO(247, 247, 247, 1),
-        ),
-        home: TabScreen(),
-        routes: {
-          '/songdetail': (context) => SongDetailScreen(),
-        },
-        onGenerateRoute: (settings) {
-          if (settings.name == '/songlist') {
-            final value = settings.arguments as String;
-            return MaterialPageRoute(builder: (_) => SongLists(value));
-          }
-          if (settings.name == '/artistsonglist') {
-            final value = settings.arguments as String;
-            return MaterialPageRoute(
-                builder: (_) => ArtistSongListScreen(value));
-          }
-        },
-      ),
-    );
+        providers: [
+          ChangeNotifierProvider(create: (_) => Screen()),
+          ChangeNotifierProvider.value(value: Auth()),
+        ],
+        child: Consumer<Auth>(
+          builder: (context, auth, _) => MaterialApp(
+            title: 'Flutter Demo',
+            theme: ThemeData(
+              primaryColor: Color.fromARGB(255, 196, 196, 196),
+              accentColor: Color.fromRGBO(75, 75, 75, 1),
+              secondaryHeaderColor: Color(0xffc4c4c4),
+              scaffoldBackgroundColor: Color.fromRGBO(247, 247, 247, 1),
+            ),
+            home: auth.isAuth
+                ? TabScreen()
+                : FutureBuilder(
+                    future: auth.tryAutoLogin(),
+                    builder: (context, snapshot) =>
+                        snapshot.connectionState == ConnectionState.waiting
+                            ? CircularProgressIndicator()
+                            : LoginScreen(),
+                  ),
+            routes: {
+              '/songdetail': (context) => SongDetailScreen(),
+            },
+            onGenerateRoute: (settings) {
+              if (settings.name == '/songlist') {
+                final value = settings.arguments as String;
+                return MaterialPageRoute(builder: (_) => SongLists(value));
+              }
+              if (settings.name == '/artistsonglist') {
+                final value = settings.arguments as String;
+                return MaterialPageRoute(
+                    builder: (_) => ArtistSongListScreen(value));
+              }
+            },
+          ),
+        ));
   }
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:music_app/screens/likes_screen.dart';
+import 'package:music_app/screens/playlist_screen.dart';
 
 class LibraryScreen extends StatefulWidget {
   const LibraryScreen({Key? key}) : super(key: key);
@@ -61,7 +63,7 @@ class _LibraryScreenState extends State<LibraryScreen>
         ),
         body: TabBarView(
           controller: control,
-          children: [Icon(Icons.mail), Icon(Icons.abc_outlined)],
+          children: [PlayListScreen(), LikeScreen()],
         ));
   }
 }
