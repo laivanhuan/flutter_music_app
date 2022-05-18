@@ -22,6 +22,24 @@ const createAlbum = async (req, res) => {
   }
 };
 
+const getAlbums = async (req, res) => {
+  try {
+    const { page = 1, size = 20 } = req.query;
+
+    const resData = await albums.findAndCountAll({
+      limit: size - 0,
+      offset: (page - 1) * (size - 0),
+    });
+
+    const response = new Response(200, "OK", resData);
+    res.status(200).send(response);
+  } catch (error) {
+    const response = new Response(500, "Error", error);
+    res.status(500).send(response);
+  }
+};
+
 module.exports = {
   createAlbum,
+  getAlbums,
 };

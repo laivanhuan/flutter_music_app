@@ -24,4 +24,6 @@ router.post(
   artistController.createArtist
 );
 
+router.get("/", artistController.getArtists);
+
 module.exports = router;
