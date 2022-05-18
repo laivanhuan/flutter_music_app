@@ -90,7 +90,7 @@ const getSongDetails = async (req, res) => {
         },
       }),
       songs.update(
-        { play_count: songData.play_count++ },
+        { play_count: ++songData.play_count },
         {
           where: {
             id,
