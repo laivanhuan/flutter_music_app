@@ -24,4 +24,6 @@ router.post(
   albumController.createAlbum
 );
 
+router.get("/", albumController.getAlbums);
+
 module.exports = router;

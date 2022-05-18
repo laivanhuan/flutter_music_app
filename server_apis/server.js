@@ -43,6 +43,8 @@ app.use("/auth", routers.authRoutes);
 app.use("/tag", routers.tagRoutes);
 app.use("/album", routers.albumRoutes);
 app.use("/artist", routers.artistRoutes);
+app.use("/song", routers.songRoutes);
+app.use("/playlist", middleware.authMiddleware, routers.playlistRoutes);
 app.use("/user", middleware.authMiddleware, routers.userRoutes);
 
 app.use(function (_, res) {
