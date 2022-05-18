@@ -75,19 +75,29 @@ const getSongDetails = async (req, res) => {
       return res.status(404).send(response);
     }
 
-    const artistData = await artist_song.findAll({
-      include: [
-        {
-          model: songs,
+    const [artistData, temp] = await Promise.all([
+      artist_song.findAll({
+        include: [
+          {
+            model: songs,
+          },
+          {
+            model: artists,
+          },
+        ],
+        where: {
+          song_id: id,
         },
+      }),
+      songs.update(
+        { play_count: songData.play_count++ },
         {
-          model: artists,
-        },
-      ],
-      where: {
-        song_id: id,
-      },
-    });
+          where: {
+            id,
+          },
+        }
+      ),
+    ]);
 
     const resData = {
       ...songData.dataValues,
@@ -104,8 +114,39 @@ const getSongDetails = async (req, res) => {
   }
 };
 
+const getSongsByArtist = async (req, res) => {
+  try {
+    const { artistId } = req.params;
+
+    const resData = await artist_song.findAll({
+      include: [
+        {
+          model: songs,
+        },
+        {
+          model: artists,
+        },
+      ],
+      where: {
+        artist_id: artistId,
+      },
+    });
+
+    const data = resData.reduce((arr, item) => {
+      return [...arr, ...item.songs];
+    }, []);
+
+    const response = new Response(200, "OK", data);
+    res.status(200).send(response);
+  } catch (error) {
+    const response = new Response(500, "Error", error);
+    res.status(500).send(response);
+  }
+};
+
 module.exports = {
   createSong,
   getSongs,
   getSongDetails,
+  getSongsByArtist,
 };
