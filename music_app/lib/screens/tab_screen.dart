@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:music_app/providers/playing_song.dart';
 import 'package:music_app/providers/screen.dart';
 import 'package:music_app/screens/artist_song_list_screen.dart';
 import 'package:music_app/screens/home_screen.dart';
@@ -20,12 +21,13 @@ class _TabScreenState extends State<TabScreen> {
   late List<Map<String, Object>> _pages;
   int _selectedPageIndex = 0;
   bool isPlaying = false;
-  String genre = "";
+  bool isSong = false;
 
   @override
   void initState() {
     setState(() {
-      genre = Provider.of<Screen>(context, listen: false).genreName;
+      isSong = Provider.of<PlayingSong>(context, listen: false).id != null;
+      isPlaying = Provider.of<PlayingSong>(context, listen: false).isPlaying;
     });
     _pages = [
       {
@@ -49,7 +51,7 @@ class _TabScreenState extends State<TabScreen> {
         'title': 'SongLists',
       },
       {
-        'page': ArtistSongListScreen("Justin Bieber"),
+        'page': ArtistSongListScreen(),
         'title': 'artistSongLists',
       },
     ];
@@ -57,23 +59,33 @@ class _TabScreenState extends State<TabScreen> {
     super.initState();
   }
 
+  @override
+  void didChangeDependencies() {
+    setState(() {
+      isSong = Provider.of<PlayingSong>(context).id != null;
+    });
+    super.didChangeDependencies();
+  }
+
   void _selectPage(int index) {
     setState(() {
       _selectedPageIndex = index;
-      Provider.of<Screen>(context, listen: false).setCurrentScreen(index);
+      Provider.of<Screen>(context, listen: false)
+          .setCurrentScreen(index, "", -1);
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    var playingSong = Provider.of<PlayingSong>(context);
     int i = context.watch<Screen>().currentScreen;
     _pages[4] = {
-      'page': SongLists(Provider.of<Screen>(context, listen: false).genreName),
+      'page': SongLists(Provider.of<Screen>(context, listen: false).artistName),
       'title': 'SongLists',
     };
     return Scaffold(
       body: _pages[i]['page'] as Widget,
-      bottomSheet: true
+      bottomSheet: playingSong.id != null
           ? InkWell(
               onTap: () {
                 Navigator.pushNamed(context, SongDetailScreen.routeName);
@@ -95,13 +107,14 @@ class _TabScreenState extends State<TabScreen> {
                               topLeft: Radius.circular(8),
                               bottomLeft: Radius.circular(8)),
                           child: Image.network(
-                            'https://i.pinimg.com/736x/fe/71/10/fe711033077aa00d714c6475c18f0565.jpg',
+                            playingSong.image as String,
                             width: 72,
                             height: double.infinity,
                             fit: BoxFit.cover,
                           ),
                         ),
                         Container(
+                          width: 250,
                           margin: EdgeInsets.only(left: 8, top: 11),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -109,7 +122,8 @@ class _TabScreenState extends State<TabScreen> {
                               Container(
                                 margin: EdgeInsets.only(bottom: 8),
                                 child: Text(
-                                  'Song name',
+                                  playingSong.name,
+                                  overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w600,
@@ -125,10 +139,17 @@ class _TabScreenState extends State<TabScreen> {
                     IconButton(
                       onPressed: () {
                         setState(() {
-                          isPlaying = !isPlaying;
+                          playingSong.isPlaying = !playingSong.isPlaying;
                         });
+                        if (playingSong.isPlaying == true) {
+                          playingSong.pause();
+                        } else {
+                          playingSong.play();
+                        }
                       },
-                      icon: Icon(isPlaying ? Icons.pause : Icons.play_arrow),
+                      icon: Icon(playingSong.isPlaying
+                          ? Icons.pause
+                          : Icons.play_arrow),
                       iconSize: 40,
                     )
                   ],

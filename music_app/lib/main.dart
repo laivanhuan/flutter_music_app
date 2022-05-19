@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:music_app/providers/artists.dart';
 import 'package:music_app/providers/auth.dart';
+import 'package:music_app/providers/playing_song.dart';
 import 'package:music_app/providers/screen.dart';
+import 'package:music_app/providers/songs.dart';
 import 'package:music_app/screens/artist_song_list_screen.dart';
-import 'package:music_app/screens/home_screen.dart';
 import 'package:music_app/screens/login_screen.dart';
 import 'package:music_app/screens/song_detail_screen.dart';
 import 'package:music_app/screens/songs_list.dart';
@@ -23,6 +25,9 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider(create: (_) => Screen()),
           ChangeNotifierProvider.value(value: Auth()),
+          ChangeNotifierProvider.value(value: Aritsts()),
+          ChangeNotifierProvider.value(value: Songs()),
+          ChangeNotifierProvider.value(value: PlayingSong()),
         ],
         child: Consumer<Auth>(
           builder: (context, auth, _) => MaterialApp(
@@ -51,9 +56,9 @@ class MyApp extends StatelessWidget {
                 return MaterialPageRoute(builder: (_) => SongLists(value));
               }
               if (settings.name == '/artistsonglist') {
-                final value = settings.arguments as String;
+                final id = settings.arguments as int;
                 return MaterialPageRoute(
-                    builder: (_) => ArtistSongListScreen(value));
+                    builder: (_) => ArtistSongListScreen());
               }
             },
           ),

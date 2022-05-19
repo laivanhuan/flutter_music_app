@@ -1,12 +1,16 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:music_app/providers/artist.dart';
 import 'package:music_app/widgets/artist_list_item.dart';
 import 'package:music_app/widgets/song_list_item.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/artists.dart';
 
 class HomeList extends StatelessWidget {
-  const HomeList({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+    final artistList = Provider.of<Aritsts>(context).items;
     return Container(
       height: 230,
       margin: EdgeInsets.symmetric(horizontal: 17, vertical: 17),
@@ -24,15 +28,15 @@ class HomeList extends StatelessWidget {
             ),
           ),
           Container(
-            height: 170,
-            margin: EdgeInsets.symmetric(vertical: 10),
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: List.generate(10, (index) {
-                return ArtistListItem();
-              }),
-            ),
-          ),
+              height: 170,
+              margin: EdgeInsets.symmetric(vertical: 10),
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: artistList.length,
+                  itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
+                        value: artistList[i],
+                        child: ArtistListItem(),
+                      ))),
         ],
       ),
     );
