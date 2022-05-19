@@ -34,5 +34,6 @@ router.post(
 router.get("/", songController.getSongs);
 router.get("/artist/:artistId", songController.getSongsByArtist);
 router.get("/:id", songController.getSongDetails);
+router.delete("/:id", songController.deleteSong);
 
 module.exports = router;
