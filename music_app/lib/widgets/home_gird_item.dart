@@ -14,7 +14,7 @@ class HomeGridItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Provider.of<Screen>(context, listen: false).setCurrentScreen(4, name);
+        Provider.of<Screen>(context, listen: false).setCurrentScreen(4, "", -1);
 
         // Navigator.pushNamed(context, SongLists.routeName, arguments: name);
       },
