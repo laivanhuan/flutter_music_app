@@ -144,39 +144,9 @@ const getSongsByArtist = async (req, res) => {
   }
 };
 
-const deleteSong = async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    const songRes = await songs.findOne({
-      where: {
-        id,
-      },
-    });
-
-    if (!songRes) {
-      const response = new Response(404, "Song does not exist");
-      return res.status(404).send(response);
-    }
-
-    const resData = await songs.destroy({
-      where: {
-        id,
-      },
-    });
-
-    const response = new Response(200, "OK", resData);
-    res.status(200).send(response);
-  } catch (error) {
-    const response = new Response(500, "Error", error);
-    res.status(500).send(response);
-  }
-};
-
 module.exports = {
   createSong,
   getSongs,
   getSongDetails,
   getSongsByArtist,
-  deleteSong
 };
