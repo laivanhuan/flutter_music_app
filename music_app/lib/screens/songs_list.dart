@@ -20,7 +20,8 @@ class SongLists extends StatelessWidget {
         leading: IconButton(
           onPressed: () {
             // Navigator.pop(context, false);
-            Provider.of<Screen>(context, listen: false).setCurrentScreen(0);
+            Provider.of<Screen>(context, listen: false)
+                .setCurrentScreen(0, "", -1);
           },
           icon: Icon(
             Icons.keyboard_arrow_down_sharp,
@@ -42,7 +43,7 @@ class SongLists extends StatelessWidget {
                   style: TextStyle(fontSize: 35, fontWeight: FontWeight.w600),
                 ),
               )),
-          SongGrid(),
+          // SongGrid(),
           SizedBox(
             height: 50,
           )

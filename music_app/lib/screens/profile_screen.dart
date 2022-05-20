@@ -126,7 +126,7 @@ class _ProfileState extends State<Profile> {
   Widget logoutButton() {
     return InkWell(
       onTap: () {
-        Provider.of<Screen>(context, listen: false).setCurrentScreen(0);
+        Provider.of<Screen>(context, listen: false).setCurrentScreen(0, "", -1);
         Provider.of<Auth>(context, listen: false).logout();
       },
       child: Container(

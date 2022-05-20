@@ -44,13 +44,48 @@ const createSong = async (req, res) => {
 
 const getSongs = async (req, res) => {
   try {
-    const { page = 1, size = 20 } = req.query;
+    const { page = 1, size = 20, name = "" } = req.query;
 
     const resData = await songs.findAndCountAll({
       limit: size - 0,
       offset: (page - 1) * (size - 0),
       attributes: ["id", "image", "name"],
+      where: {
+        name: {
+          [Sequelize.Op.like]: `%${name}%`,
+        },
+      },
     });
+
+    const ids = resData.rows.map((item) => item.id);
+
+    const artistList = await artist_song.findAll({
+      include: [
+        {
+          model: artists,
+        },
+      ],
+      where: {
+        song_id: {
+          [Sequelize.Op.in]: ids,
+        },
+      },
+    });
+
+    const data = resData.rows.map((song) => {
+      let s = { ...song.dataValues, artists: [] };
+      for (let i = 0; i < artistList.length; i++) {
+        const ar = artistList[i].dataValues;
+        if (s.id === ar.song_id) {
+          s.artists = !s.artists.length
+            ? [...ar.artists]
+            : [...s.artists, ...ar.artists];
+        }
+      }
+      return s;
+    });
+
+    resData.rows = data;
 
     const response = new Response(200, "OK", resData);
     res.status(200).send(response);
@@ -178,5 +213,5 @@ module.exports = {
   getSongs,
   getSongDetails,
   getSongsByArtist,
-  deleteSong
+  deleteSong,
 };
