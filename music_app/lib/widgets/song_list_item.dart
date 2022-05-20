@@ -29,26 +29,22 @@ class SongListItem extends StatelessWidget {
             width: double.infinity,
             fit: BoxFit.fitHeight,
           ),
-          Container(
-            width: 100,
-            child: Center(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.all(5),
-                    child: Text(
-                      song.name,
-                      overflow: TextOverflow.ellipsis,
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                    ),
+          Center(
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(5),
+                  child: Text(
+                    song.name,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                   ),
-                  Text(
-                    'Artist',
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
-                  ),
-                ],
-              ),
+                ),
+                Text(
+                  'Artist',
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                ),
+              ],
             ),
           ),
         ],

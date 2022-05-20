@@ -15,6 +15,8 @@ class PlayingSong with ChangeNotifier {
   List<Artist> artists = [];
   bool isPlaying = false;
   AudioPlayer audioPlayer = new AudioPlayer();
+  Duration duration = Duration(seconds: 0);
+  Duration position = Duration(seconds: 0);
 
   Future<void> setPlayingSong(int id) async {
     final url = Uri.parse('https://conkhunglongnene.site/song/$id');
@@ -38,9 +40,10 @@ class PlayingSong with ChangeNotifier {
     print(this.name);
     print(this.source);
     play();
+    notifyListeners();
   }
 
-  void play() async {
+  Future<void> play() async {
     int result = await audioPlayer.play(this.source as String, volume: 10);
     if (result == 1) {
       print(this.source);
@@ -50,6 +53,31 @@ class PlayingSong with ChangeNotifier {
   }
 
   Future<void> pause() async {
-    int result = await audioPlayer.stop();
+    int result = await audioPlayer.pause();
+  }
+
+  Future<void> resume() async {
+    int result = await audioPlayer.resume();
+  }
+
+  Future<void> changeState() async {
+    isPlaying = !isPlaying;
+    notifyListeners();
+  }
+
+  Duration getDuration() {
+    audioPlayer.onDurationChanged.listen((event) {
+      duration = event;
+    });
+    notifyListeners();
+    return duration;
+  }
+
+  Duration getPosition() {
+    audioPlayer.onAudioPositionChanged.listen((event) {
+      position = event;
+    });
+    notifyListeners();
+    return position;
   }
 }
