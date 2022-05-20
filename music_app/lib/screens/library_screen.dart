@@ -61,9 +61,11 @@ class _LibraryScreenState extends State<LibraryScreen>
             ),
           ),
         ),
-        body: TabBarView(
-          controller: control,
-          children: [PlayListScreen(), LikeScreen()],
+        body: SafeArea(
+          child: TabBarView(
+            controller: control,
+            children: [PlayListScreen(), LikeScreen()],
+          ),
         ));
   }
 }

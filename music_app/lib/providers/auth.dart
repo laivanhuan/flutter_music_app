@@ -1,15 +1,16 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:music_app/providers/playlist.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Auth with ChangeNotifier {
   String? _token = null;
-
   int? _userId;
   late String _userName;
   String? _userEmail;
+  List<Playlist> _playlists = [];
 
   bool get isAuth {
     return _token != null;
@@ -20,6 +21,8 @@ class Auth with ChangeNotifier {
   String get userEmail => _userEmail!;
 
   int get userId => _userId!;
+
+  List<Playlist> get playlists => _playlists;
 
   Future<void> login(String username, String password) async {
     try {
@@ -45,9 +48,7 @@ class Auth with ChangeNotifier {
       _userId = userResData['data']["id"];
       _userName = userResData['data']["name"];
       _userEmail = userResData['data']["email"];
-      print(_userId);
-      print(_userEmail);
-      print(_userName);
+
       notifyListeners();
       final prefs = await SharedPreferences.getInstance();
       final userData = json.encode({
@@ -118,5 +119,42 @@ class Auth with ChangeNotifier {
     notifyListeners();
     final prefs = await SharedPreferences.getInstance();
     prefs.clear();
+  }
+
+  Future<void> fetchPlaylists() async {
+    final url =
+        Uri.parse('https://conkhunglongnene.site/playlist?size=10&page=1');
+    final respose =
+        await http.get(url, headers: {'Authorization': 'Bearer ' + _token!});
+    final responseData = json.decode(respose.body);
+    if (responseData['status'] > 200) {
+      log('khong lay duoc danh sach playlist cua user $_userId');
+    }
+
+    List<Playlist> loadedPlaylists = [];
+    responseData['data']['rows'].forEach((pl) {
+      loadedPlaylists.add(Playlist(pl['id'], pl['name']));
+    });
+    _playlists = loadedPlaylists;
+
+    notifyListeners();
+  }
+
+  Future<void> createPlaylist(String name) async {
+    final url = Uri.parse('https://conkhunglongnene.site/playlist/');
+    final response = await http.post(url, body: {
+      'name': name,
+    }, headers: {
+      'Authorization': 'Bearer ' + _token!,
+    });
+
+    fetchPlaylists();
+  }
+
+  Future<void> deletePlaylist(int id) async {
+    final url = Uri.parse('https://conkhunglongnene.site/playlist/$id');
+    final respose =
+        await http.delete(url, headers: {'Authorization': 'Bearer ' + _token!});
+    fetchPlaylists();
   }
 }
