@@ -27,10 +27,10 @@ class Songs with ChangeNotifier {
         print('error');
         return;
       }
-      print(responseData['status']);
+
       final List<Song> loadedSong = [];
       responseData['data']['rows'].forEach((value) {
-        loadedSong.add(new Song(value['id'],
+        loadedSong.add(Song(value['id'],
             'https://conkhunglongnene.site' + value['image'], value['name']));
       });
       _items = loadedSong;

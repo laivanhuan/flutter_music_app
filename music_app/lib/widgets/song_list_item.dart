@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:music_app/providers/playing_song.dart';
 import 'package:music_app/providers/screen.dart';
+import 'package:music_app/providers/search.dart';
 import 'package:music_app/providers/song.dart';
 import 'package:music_app/screens/login_screen.dart';
 import 'package:music_app/screens/song_detail_screen.dart';
@@ -27,7 +28,7 @@ class SongListItem extends StatelessWidget {
             song.image,
             height: 200,
             width: double.infinity,
-            fit: BoxFit.fitHeight,
+            fit: BoxFit.cover,
           ),
           Center(
             child: Column(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:music_app/providers/playing_song.dart';
 import 'package:provider/provider.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AudioController extends StatefulWidget {
   const AudioController({Key? key}) : super(key: key);
@@ -13,6 +14,8 @@ class _AudioControllerState extends State<AudioController> {
   var duration = Duration();
   var position = Duration(seconds: 0);
   bool isPlaying = true;
+  bool isSuffle = false;
+  bool isReplay = false;
 
   @override
   void initState() {
@@ -82,28 +85,37 @@ class _AudioControllerState extends State<AudioController> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(position.toString().split(".")[0].split(":")[1] +
-                      ":" +
-                      position.toString().split(".")[0].split(":")[2]),
-                  Text(duration.toString().split(".")[0].split(":")[1] +
-                      ":" +
-                      duration.toString().split(".")[0].split(":")[2]),
+                  Text(
+                    position.toString().split(".")[0].split(":")[1] +
+                        ":" +
+                        position.toString().split(".")[0].split(":")[2],
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                  ),
+                  Text(
+                      duration.toString().split(".")[0].split(":")[1] +
+                          ":" +
+                          duration.toString().split(".")[0].split(":")[2],
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                 ],
               ),
             ),
-            SizedBox(),
             Container(
-              width: 600,
+              margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
               child: Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     IconButton(
+                      iconSize: 22,
+                      onPressed: () {},
+                      icon: FaIcon(FontAwesomeIcons.shuffle),
+                    ),
+                    IconButton(
                         onPressed: () {},
-                        icon: Icon(
-                          Icons.place,
-                          size: 15,
-                        )),
+                        iconSize: 30,
+                        icon: FaIcon(FontAwesomeIcons.stepBackward)),
                     IconButton(
                         onPressed: () async {
                           if (playingsong.isPlaying) {
@@ -116,22 +128,47 @@ class _AudioControllerState extends State<AudioController> {
                             isPlaying = playingsong.isPlaying;
                           });
                         },
-                        icon: Icon(
+                        iconSize: 50,
+                        // color: Color(0xff4CD964),
+                        icon: FaIcon(
                           playingsong.isPlaying
-                              ? Icons.pause
-                              : Icons.play_circle_sharp,
-                          size: 50,
+                              ? FontAwesomeIcons.pauseCircle
+                              : FontAwesomeIcons.solidCirclePlay,
                         )),
                     IconButton(
                         onPressed: () {},
-                        icon: Icon(
-                          Icons.face,
-                          size: 15,
+                        iconSize: 30,
+                        icon: FaIcon(FontAwesomeIcons.stepForward)),
+                    IconButton(
+                        iconSize: 22,
+                        onPressed: () {},
+                        icon: FaIcon(
+                          FontAwesomeIcons.repeat,
                         )),
                   ],
                 ),
               ),
-            )
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(),
+                  IconButton(
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (ctx) => Card(
+                                  child: Center(
+                                    child: Text('Add playlist'),
+                                  ),
+                                ));
+                      },
+                      icon: FaIcon(FontAwesomeIcons.list))
+                ],
+              ),
+            ),
           ],
         ),
       ),

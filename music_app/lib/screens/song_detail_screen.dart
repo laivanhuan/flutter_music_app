@@ -19,6 +19,7 @@ class SongDetailScreen extends StatelessWidget {
         elevation: 0,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         leading: IconButton(
+          iconSize: 40,
           icon: Icon(
             Icons.keyboard_arrow_down_sharp,
             color: Theme.of(context).primaryColor,
