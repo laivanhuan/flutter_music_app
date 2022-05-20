@@ -20,14 +20,14 @@ class TabScreen extends StatefulWidget {
 class _TabScreenState extends State<TabScreen> {
   late List<Map<String, Object>> _pages;
   int _selectedPageIndex = 0;
-  bool isPlaying = false;
+  bool isPlaying = true;
   bool isSong = false;
 
   @override
   void initState() {
     setState(() {
-      isSong = Provider.of<PlayingSong>(context, listen: false).id != null;
-      isPlaying = Provider.of<PlayingSong>(context, listen: false).isPlaying;
+      isSong = false;
+      isPlaying = true;
     });
     _pages = [
       {
@@ -57,14 +57,6 @@ class _TabScreenState extends State<TabScreen> {
     ];
 
     super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    setState(() {
-      isSong = Provider.of<PlayingSong>(context).id != null;
-    });
-    super.didChangeDependencies();
   }
 
   void _selectPage(int index) {
@@ -137,15 +129,16 @@ class _TabScreenState extends State<TabScreen> {
                       ],
                     ),
                     IconButton(
-                      onPressed: () {
-                        setState(() {
-                          playingSong.isPlaying = !playingSong.isPlaying;
-                        });
-                        if (playingSong.isPlaying == true) {
+                      onPressed: () async {
+                        if (playingSong.isPlaying) {
                           playingSong.pause();
                         } else {
-                          playingSong.play();
+                          playingSong.resume();
                         }
+                        await playingSong.changeState();
+                        setState(() {
+                          isPlaying = playingSong.isPlaying;
+                        });
                       },
                       icon: Icon(playingSong.isPlaying
                           ? Icons.pause
