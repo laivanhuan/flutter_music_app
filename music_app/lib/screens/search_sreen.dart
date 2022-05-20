@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:music_app/providers/search.dart';
+import 'package:music_app/widgets/search_result.dart';
+import 'package:provider/provider.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({Key? key}) : super(key: key);
-
   @override
   State<SearchScreen> createState() => _SearchScreenState();
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  var searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    var searchFunction = Provider.of<Search>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -24,6 +28,10 @@ class _SearchScreenState extends State<SearchScreen> {
           Container(
             margin: EdgeInsets.symmetric(horizontal: 10),
             child: TextField(
+              onChanged: (_) async {
+                await searchFunction.search(searchController.text);
+              },
+              controller: searchController,
               style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
                   fillColor: Color(0xff282828),
@@ -39,6 +47,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       borderRadius: BorderRadius.circular(20))),
             ),
           ),
+          SearchResult()
         ],
       ),
     );

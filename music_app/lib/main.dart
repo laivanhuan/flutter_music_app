@@ -3,6 +3,7 @@ import 'package:music_app/providers/artists.dart';
 import 'package:music_app/providers/auth.dart';
 import 'package:music_app/providers/playing_song.dart';
 import 'package:music_app/providers/screen.dart';
+import 'package:music_app/providers/search.dart';
 import 'package:music_app/providers/songs.dart';
 import 'package:music_app/screens/artist_song_list_screen.dart';
 import 'package:music_app/screens/login_screen.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider.value(value: Aritsts()),
           ChangeNotifierProvider.value(value: Songs()),
           ChangeNotifierProvider.value(value: PlayingSong()),
+          ChangeNotifierProvider.value(value: Search()),
         ],
         child: Consumer<Auth>(
           builder: (context, auth, _) => MaterialApp(

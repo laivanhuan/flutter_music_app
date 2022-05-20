@@ -14,6 +14,8 @@ class PlayingSong with ChangeNotifier {
   String? source;
   List<Artist> artists = [];
   bool isPlaying = false;
+  bool isShuffle = false;
+  bool isReplay = false;
   AudioPlayer audioPlayer = new AudioPlayer();
   Duration duration = Duration(seconds: 0);
   Duration position = Duration(seconds: 0);
@@ -35,10 +37,6 @@ class PlayingSong with ChangeNotifier {
     });
     artists = loadedA;
     isPlaying = true;
-
-    print(this.id);
-    print(this.name);
-    print(this.source);
     play();
     notifyListeners();
   }
