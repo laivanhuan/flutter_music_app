@@ -31,7 +31,8 @@ class _SearchResultState extends State<SearchResult> {
                 value: serchSongs[i],
                 child: Card(
                   elevation: 5,
-                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
                   child: SearchedSong(),
                 ),
               ),

@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
 
 class Artist with ChangeNotifier {
   final int id;
