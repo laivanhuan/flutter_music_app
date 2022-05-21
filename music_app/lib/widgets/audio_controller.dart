@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:music_app/providers/playing_list.dart';
 import 'package:music_app/providers/playing_song.dart';
 import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -16,11 +17,20 @@ class _AudioControllerState extends State<AudioController> {
   var duration = Duration();
   var position = Duration(seconds: 0);
   bool isPlaying = true;
-  bool isSuffle = false;
+  bool isShuffle = false;
   bool isReplay = false;
 
   @override
   void initState() {
+    setState(() {
+      isPlaying = Provider.of<PlayingSong>(context, listen: false).isPlaying;
+      isReplay = Provider.of<PlayingSong>(context, listen: false).isReplay;
+      isShuffle = Provider.of<PlayingSong>(context, listen: false).isShuffle;
+    });
+    if (isShuffle) {
+      Provider.of<PlayingList>(context, listen: false).getShuffle();
+    }
+
     Duration temp = Duration(seconds: 0);
     Duration temp2 = Duration(seconds: 0);
     Provider.of<PlayingSong>(context, listen: false)
@@ -104,7 +114,9 @@ class _AudioControllerState extends State<AudioController> {
         onChanged: (double value) {
           setState(() {
             changeToSecond(value.toInt());
-            value = value;
+            if (value <= duration.inSeconds.toDouble()) {
+              value = value;
+            }
           });
         },
       );
@@ -143,23 +155,32 @@ class _AudioControllerState extends State<AudioController> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Stack(children: [
-                      Positioned(
-                        child: FaIcon(
-                          FontAwesomeIcons.shuffle,
-                          color: Color(0xff4CD964),
-                        ),
-                        left: 10,
-                        top: 10,
-                      ),
-                      IconButton(
-                        iconSize: 22,
-                        onPressed: () {},
-                        icon: FaIcon(FontAwesomeIcons.shuffle),
-                      ),
-                    ]),
                     IconButton(
-                        onPressed: () {},
+                      iconSize: 22,
+                      onPressed: () {
+                        playingsong.isShuffle = !playingsong.isShuffle;
+                        setState(() {
+                          isShuffle = playingsong.isShuffle;
+                        });
+                        if (isShuffle) {
+                          Provider.of<PlayingList>(context, listen: false)
+                              .getShuffle();
+                        } else {
+                          Provider.of<PlayingList>(context, listen: false)
+                              .unShuffle();
+                        }
+                      },
+                      color: isShuffle ? Colors.blue : Colors.black,
+                      icon: FaIcon(FontAwesomeIcons.shuffle),
+                    ),
+                    IconButton(
+                        onPressed: () {
+                          int pre =
+                              Provider.of<PlayingList>(context, listen: false)
+                                  .getPreSong(playingsong.id as int);
+                          Provider.of<PlayingSong>(context, listen: false)
+                              .setPlayingSong(pre);
+                        },
                         iconSize: 30,
                         icon: FaIcon(FontAwesomeIcons.stepBackward)),
                     IconButton(
@@ -183,14 +204,23 @@ class _AudioControllerState extends State<AudioController> {
                         )),
                     IconButton(
                         onPressed: () {
+                          int next =
+                              Provider.of<PlayingList>(context, listen: false)
+                                  .getNextSong(playingsong.id as int);
                           Provider.of<PlayingSong>(context, listen: false)
-                              .setPlayingSong(27);
+                              .setPlayingSong(next);
                         },
                         iconSize: 30,
                         icon: FaIcon(FontAwesomeIcons.stepForward)),
                     IconButton(
                         iconSize: 22,
-                        onPressed: () {},
+                        onPressed: () {
+                          playingsong.isReplay = !playingsong.isReplay;
+                          setState(() {
+                            isReplay = playingsong.isReplay;
+                          });
+                        },
+                        color: isReplay ? Colors.blue : Colors.black,
                         icon: FaIcon(
                           FontAwesomeIcons.repeat,
                         )),

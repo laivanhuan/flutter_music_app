@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:music_app/providers/albums.dart';
 import 'package:music_app/providers/artists.dart';
 import 'package:music_app/providers/auth.dart';
+import 'package:music_app/providers/playing_list.dart';
 import 'package:music_app/providers/playing_song.dart';
 import 'package:music_app/providers/playlists.dart';
 import 'package:music_app/providers/screen.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider.value(value: Search()),
           ChangeNotifierProvider.value(value: Playlists()),
           ChangeNotifierProvider.value(value: Albums()),
+          ChangeNotifierProvider.value(value: PlayingList()),
         ],
         child: Consumer<Auth>(
           builder: (context, auth, _) => MaterialApp(
