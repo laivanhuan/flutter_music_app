@@ -83,14 +83,20 @@ const deletePlaylist = async (req, res) => {
       return res.status(404).send(response);
     }
 
-    const resData = await playlists.destroy({
+    await playlist_song.destroy({
+      where: {
+        playlist_id: id,
+      },
+    });
+
+    await playlists.destroy({
       where: {
         user_id,
         id,
       },
     });
 
-    const response = new Response(200, "OK", resData);
+    const response = new Response(200, "OK");
     res.status(200).send(response);
   } catch (error) {
     const response = new Response(500, "Error", error);

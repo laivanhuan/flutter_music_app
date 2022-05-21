@@ -76,7 +76,7 @@ const getAlbumDetails = async (req, res) => {
       include: [
         {
           model: songs,
-          attributes: ["id", "name", "play_count"],
+          attributes: ["id", "name", "play_count", "image"],
         },
         {
           model: albums,
