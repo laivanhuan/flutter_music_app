@@ -73,7 +73,9 @@ class PlayingSong with ChangeNotifier {
 
   Duration getPosition() {
     audioPlayer.onAudioPositionChanged.listen((event) {
-      position = event;
+      if (event <= duration) {
+        position = event;
+      }
     });
     notifyListeners();
     return position;
