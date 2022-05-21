@@ -78,4 +78,14 @@ class PlayingSong with ChangeNotifier {
     notifyListeners();
     return position;
   }
+
+  Future<void> clear() async {
+    id = null;
+    image = "";
+    name = "";
+    source = "";
+    isPlaying = false;
+    audioPlayer.stop();
+    notifyListeners();
+  }
 }

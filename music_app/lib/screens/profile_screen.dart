@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:music_app/providers/playing_song.dart';
 import 'package:music_app/providers/screen.dart';
 import 'package:provider/provider.dart';
 
@@ -126,6 +127,7 @@ class _ProfileState extends State<Profile> {
   Widget logoutButton() {
     return InkWell(
       onTap: () {
+        Provider.of<PlayingSong>(context, listen: false).clear();
         Provider.of<Screen>(context, listen: false).setCurrentScreen(0, "", -1);
         Provider.of<Auth>(context, listen: false).logout();
       },

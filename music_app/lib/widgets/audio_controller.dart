@@ -3,6 +3,8 @@ import 'package:music_app/providers/playing_song.dart';
 import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../providers/auth.dart';
+
 class AudioController extends StatefulWidget {
   const AudioController({Key? key}) : super(key: key);
 
@@ -41,6 +43,40 @@ class _AudioControllerState extends State<AudioController> {
     });
 
     super.initState();
+  }
+
+  void showCreateDialog(BuildContext context, int songid) async {
+    await Provider.of<Auth>(context, listen: false).fetchPlaylists();
+    var playlist = Provider.of<Auth>(context, listen: false).playlists;
+    showDialog(
+        context: context,
+        builder: (ctx) {
+          return SimpleDialog(
+            title: Center(child: const Text('Add to your playlists:')),
+            children: playlist.isEmpty
+                ? List.generate(
+                    1,
+                    (ctx) => Padding(
+                          padding: const EdgeInsets.all(18.0),
+                          child: Center(
+                              child: Text('You don\'t have any playlist')),
+                        )) as List<Widget>
+                : [
+                    ...playlist.map(
+                      (e) => TextButton(
+                          onPressed: () async {
+                            await Provider.of<Auth>(context, listen: false)
+                                .addSongToPlaylist(e.id, songid);
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                            e.name,
+                            style: TextStyle(fontSize: 20),
+                          )),
+                    )
+                  ],
+          );
+        });
   }
 
   @override
@@ -107,11 +143,21 @@ class _AudioControllerState extends State<AudioController> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    IconButton(
-                      iconSize: 22,
-                      onPressed: () {},
-                      icon: FaIcon(FontAwesomeIcons.shuffle),
-                    ),
+                    Stack(children: [
+                      Positioned(
+                        child: FaIcon(
+                          FontAwesomeIcons.shuffle,
+                          color: Color(0xff4CD964),
+                        ),
+                        left: 10,
+                        top: 10,
+                      ),
+                      IconButton(
+                        iconSize: 22,
+                        onPressed: () {},
+                        icon: FaIcon(FontAwesomeIcons.shuffle),
+                      ),
+                    ]),
                     IconButton(
                         onPressed: () {},
                         iconSize: 30,
@@ -136,7 +182,10 @@ class _AudioControllerState extends State<AudioController> {
                               : FontAwesomeIcons.solidCirclePlay,
                         )),
                     IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Provider.of<PlayingSong>(context, listen: false)
+                              .setPlayingSong(27);
+                        },
                         iconSize: 30,
                         icon: FaIcon(FontAwesomeIcons.stepForward)),
                     IconButton(
@@ -157,13 +206,7 @@ class _AudioControllerState extends State<AudioController> {
                   SizedBox(),
                   IconButton(
                       onPressed: () {
-                        showDialog(
-                            context: context,
-                            builder: (ctx) => Card(
-                                  child: Center(
-                                    child: Text('Add playlist'),
-                                  ),
-                                ));
+                        showCreateDialog(context, playingsong.id as int);
                       },
                       icon: FaIcon(FontAwesomeIcons.list))
                 ],

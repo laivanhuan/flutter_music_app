@@ -14,6 +14,7 @@ class SongListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var song = Provider.of<Song>(context, listen: false);
+
     var link = song.image;
     return GestureDetector(
       onTap: () async {
@@ -41,10 +42,27 @@ class SongListItem extends StatelessWidget {
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                   ),
                 ),
-                Text(
-                  'Artist',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
-                ),
+                song.artists == null
+                    ? SizedBox()
+                    : FittedBox(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ...song.artists!.map((e) {
+                              String add = " & ";
+                              if (e == song.artists!.last) {
+                                add = "";
+                              }
+                              return Text(e.name + add,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w300,
+                                      fontSize: 19));
+                            })
+                          ],
+                        ),
+                      ),
               ],
             ),
           ),
