@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:music_app/providers/albums.dart';
 import 'package:music_app/providers/artists.dart';
 import 'package:music_app/providers/auth.dart';
 import 'package:music_app/providers/playing_song.dart';
@@ -8,6 +9,7 @@ import 'package:music_app/providers/search.dart';
 import 'package:music_app/providers/songs.dart';
 import 'package:music_app/screens/artist_song_list_screen.dart';
 import 'package:music_app/screens/login_screen.dart';
+import 'package:music_app/screens/playlist_songs_screen.dart';
 import 'package:music_app/screens/song_detail_screen.dart';
 import 'package:music_app/screens/songs_list.dart';
 import 'package:music_app/screens/tab_screen.dart';
@@ -32,6 +34,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider.value(value: PlayingSong()),
           ChangeNotifierProvider.value(value: Search()),
           ChangeNotifierProvider.value(value: Playlists()),
+          ChangeNotifierProvider.value(value: Albums()),
         ],
         child: Consumer<Auth>(
           builder: (context, auth, _) => MaterialApp(
@@ -56,13 +59,14 @@ class MyApp extends StatelessWidget {
             },
             onGenerateRoute: (settings) {
               if (settings.name == '/songlist') {
-                final value = settings.arguments as String;
-                return MaterialPageRoute(builder: (_) => SongLists(value));
+                return MaterialPageRoute(builder: (_) => SongLists());
               }
               if (settings.name == '/artistsonglist') {
-                final id = settings.arguments as int;
                 return MaterialPageRoute(
                     builder: (_) => ArtistSongListScreen());
+              }
+              if (settings.name == '/playListSongs') {
+                return MaterialPageRoute(builder: (_) => PlaylistSongsScreen());
               }
             },
           ),
